@@ -1,0 +1,4 @@
+version: '2'
+services:
+  conf:
+    image: "interface21/openwms-configuration"
