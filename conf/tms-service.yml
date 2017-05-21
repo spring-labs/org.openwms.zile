@@ -1,3 +1,5 @@
 security:
   user:
-    password: '{cipher}AQBEBfqLmGyuR5sfmNf98rw0cFrFmWA8iUbafn4XhK6vMjQ9tTxAwXRm3fEAE49h7r3dlmHgBk9trPai5tcoJfiOeDGdLUPgTMXphesVT6CH0du3nvJZqGqSROy/8TwSvnjr6Uz3pO57jT+uESrYg4/BE2l2HIZT59qJUG/yvCZiqTiqovj9YEEVa4kI5bW8HiBDS5o5Oq/1+8LmrSTZlb/ui9JPxIOd/XuI0NT7uPb7mstS4x+/65DxoGMVsRUA87SkPN+/YYbBdxFOV4jmv/RzlK+sEp0fqu82OEYCFRUdB9mpH+UWD6GcsNPfjM5uT7slaPTAuElhFjZ4vAUQjggb77NCuyyopakRmfIEz7eTjCMB/2pBoekwM5YPm2RgCyI='
+    password: sa
+# In production environment the config server uses a keystore or vault to protect password.
+#    password: '{cipher}AQBEBfqLmGyuR5sfmNf98rw0cFrFmWA8iUbafn4XhK6vMjQ9tTxAwXRm3fEAE49h7r3dlmHgBk9trPai5tcoJfiOeDGdLUPgTMXphesVT6CH0du3nvJZqGqSROy/8TwSvnjr6Uz3pO57jT+uESrYg4/BE2l2HIZT59qJUG/yvCZiqTiqovj9YEEVa4kI5bW8HiBDS5o5Oq/1+8LmrSTZlb/ui9JPxIOd/XuI0NT7uPb7mstS4x+/65DxoGMVsRUA87SkPN+/YYbBdxFOV4jmv/RzlK+sEp0fqu82OEYCFRUdB9mpH+UWD6GcsNPfjM5uT7slaPTAuElhFjZ4vAUQjggb77NCuyyopakRmfIEz7eTjCMB/2pBoekwM5YPm2RgCyI='
