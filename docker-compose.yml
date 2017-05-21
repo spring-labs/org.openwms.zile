@@ -1,4 +1,58 @@
-version: '2'
+version: '3'
 services:
-  conf:
-    image: "interface21/openwms-configuration"
+  cfg:
+    build: ../../interface21/org.openwms.configuration
+    ports:
+      - "8099:8099"
+    environment:
+      spring.cloud.config.server.git.uri: https://github.com/spring-labs/org.openwms.zile
+      spring.cloud.config.server.git.default-label: master
+      owms.eureka.url: http://user:sa@srv:8761
+    restart: always
+    depends_on:
+      - srv
+  srv:
+    build: ../../interface21/org.openwms.services
+    ports:
+      - "8761:8761"
+  common-srv:
+    build: ../../openwms/org.openwms.common.service
+    ports:
+      - "8120:8120"
+    environment:
+      spring.cloud.config.username: user
+      spring.cloud.config.password: sa
+      owms.eureka.url: http://user:sa@srv:8761
+    restart: on-failure:3
+    depends_on:
+      - srv
+      - cfg
+  tms-transportation:
+    build: ../../openwms/org.openwms.tms.transportation
+    ports:
+      - "8131:8131"
+    environment:
+      spring.cloud.config.username: user
+      spring.cloud.config.password: sa
+      owms.eureka.url: http://user:sa@srv:8761
+    restart: on-failure:3
+    depends_on:
+      - srv
+      - cfg
+  tms-routing:
+    build: ../../openwms/org.openwms.tms.routing
+    ports:
+      - "8130:8130"
+    environment:
+      spring.cloud.config.username: user
+      spring.cloud.config.password: sa
+      owms.eureka.url: http://user:sa@srv:8761
+    restart: on-failure:3
+    depends_on:
+      - srv
+      - cfg
+
+
+
+#  sr:
+#    image: "interface21/openwms-services:2"
