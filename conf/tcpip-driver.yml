@@ -5,3 +5,4 @@ owms:
       so-timeout: 300000
       so-receive-buffer-size: 160
       so-send-buffer-size: 160
+      routing-service-name: routing-service # is default

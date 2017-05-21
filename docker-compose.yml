@@ -7,9 +7,9 @@ services:
       - "8099:8099"
     environment:
       spring.cloud.config.server.git.uri: https://github.com/spring-labs/org.openwms.zile
-      spring.cloud.config.server.git.default-label: master
+      spring.cloud.config.server.git.searchPaths: conf
+      spring.cloud.config.server.git.clone-on-start: "true"
       owms.eureka.url: http://user:sa@srv:8761
-    restart: always
     depends_on:
       - srv
   srv:
