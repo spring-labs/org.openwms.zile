@@ -1,8 +1,17 @@
 version: '3'
 services:
+  srv:
+    build: ../../interface21/org.openwms.services
+#    image: "interface21/openwms-services:2"
+    restart: always
+    ports:
+      - "8761:8761"
+      
+      
   cfg:
     build: ../../interface21/org.openwms.configuration
-    hostname: localhost
+    hostname: cfg
+    restart: always
     ports:
       - "8099:8099"
     environment:
@@ -10,53 +19,64 @@ services:
       spring.cloud.config.server.git.searchPaths: conf
       spring.cloud.config.server.git.clone-on-start: "true"
       owms.eureka.url: http://user:sa@srv:8761
-    depends_on:
-      - srv
-  srv:
-    build: ../../interface21/org.openwms.services
-    ports:
-      - "8761:8761"
+      
+      
   common-srv:
     build: ../../openwms/org.openwms.common.service
-    hostname: localhost
+    restart: on-failure:3
+    hostname: common-srv
     ports:
       - "8120:8120"
     environment:
       spring.cloud.config.username: user
       spring.cloud.config.password: sa
       owms.eureka.url: http://user:sa@srv:8761
-    restart: on-failure:3
     depends_on:
       - srv
       - cfg
+      
+      
   tms-transportation:
     build: ../../openwms/org.openwms.tms.transportation
-    hostname: localhost
+    restart: on-failure:3
+    hostname: tms-transportation
     ports:
       - "8131:8131"
     environment:
       spring.cloud.config.username: user
       spring.cloud.config.password: sa
       owms.eureka.url: http://user:sa@srv:8761
-    restart: on-failure:3
     depends_on:
       - srv
       - cfg
+      
+      
   tms-routing:
     build: ../../openwms/org.openwms.tms.routing
-    hostname: localhost
+    restart: on-failure:3
+    hostname: tms-routing
     ports:
       - "8130:8130"
     environment:
       spring.cloud.config.username: user
       spring.cloud.config.password: sa
       owms.eureka.url: http://user:sa@srv:8761
-    restart: on-failure:3
     depends_on:
       - srv
       - cfg
 
 
-
+  tcp-palett:
+    build: ../../openwms/org.openwms.common.comm
+    restart: on-failure:3
+    hostname: tcp-palett
+    ports:
+      - "30000:30000"
+    environment:
+      spring.cloud.config.username: user
+      spring.cloud.config.password: sa
+      owms.eureka.url: http://user:sa@srv:8761
+    depends_on:
+      - srv
 #  sr:
 #    image: "interface21/openwms-services:2"
