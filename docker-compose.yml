@@ -1,15 +1,23 @@
 version: '3'
 services:
+  tracing:
+    image: "interface21/openwms-tracing:1.0.0.3"
+    restart: always
+    ports:
+      - "9411:9411"
+
+
   srv:
-    build: ../../interface21/org.openwms.services
-#    image: "interface21/openwms-services:2"
+#    build: ../../interface21/org.openwms.services
+    image: "interface21/openwms-services:1.0.0.3"
     restart: always
     ports:
       - "8761:8761"
       
       
   cfg:
-    build: ../../interface21/org.openwms.configuration
+#    build: ../../interface21/org.openwms.configuration
+    image: "interface21/openwms-configuration:1.0.0.2"
     hostname: cfg
     restart: always
     ports:
@@ -21,62 +29,57 @@ services:
       owms.eureka.url: http://user:sa@srv:8761
       
       
-  common-srv:
-    build: ../../openwms/org.openwms.common.service
-    restart: on-failure:3
-    hostname: common-srv
+  common-service:
+#    build: ../../openwms/org.openwms.common.service
+    image: "openwms/org.openwms.common.service:1.0.0.1"
+    restart: on-failure:10
+    hostname: common-service
     ports:
       - "8120:8120"
     environment:
       spring.cloud.config.username: user
       spring.cloud.config.password: sa
+      spring.zipkin.base-url: http://tracing:9411/
       owms.eureka.url: http://user:sa@srv:8761
-    depends_on:
-      - srv
-      - cfg
       
       
   tms-transportation:
-    build: ../../openwms/org.openwms.tms.transportation
-    restart: on-failure:3
+#    build: ../../openwms/org.openwms.tms.transportation
+    image: "openwms/org.openwms.tms.transportation:1.0.0.1"
+    restart: on-failure:10
     hostname: tms-transportation
     ports:
       - "8131:8131"
     environment:
       spring.cloud.config.username: user
       spring.cloud.config.password: sa
+      spring.zipkin.base-url: http://tracing:9411/
       owms.eureka.url: http://user:sa@srv:8761
-    depends_on:
-      - srv
-      - cfg
       
       
-  tms-routing:
-    build: ../../openwms/org.openwms.tms.routing
-    restart: on-failure:3
-    hostname: tms-routing
+  routing-service:
+#    build: ../../openwms/org.openwms.tms.routing
+    image: "openwms/org.openwms.tms.routing:1.0.0.1"
+    restart: on-failure:10
+    hostname: routing-service
     ports:
       - "8130:8130"
     environment:
       spring.cloud.config.username: user
       spring.cloud.config.password: sa
+      spring.zipkin.base-url: http://tracing:9411/
       owms.eureka.url: http://user:sa@srv:8761
-    depends_on:
-      - srv
-      - cfg
 
 
   tcp-palett:
-    build: ../../openwms/org.openwms.common.comm
-    restart: on-failure:3
+#    build: ../../openwms/org.openwms.common.comm
+    image: "openwms/org.openwms.common.comm:1.0.0.1"
+    restart: on-failure:10
     hostname: tcp-palett
     ports:
       - "30000:30000"
     environment:
       spring.cloud.config.username: user
       spring.cloud.config.password: sa
+      spring.zipkin.base-url: http://tracing:9411/
       owms.eureka.url: http://user:sa@srv:8761
-    depends_on:
-      - srv
-#  sr:
-#    image: "interface21/openwms-services:2"

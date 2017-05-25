@@ -1,13 +1,17 @@
-# Project ZILE
+# Project ZILE Sweets
 
-The ZILE project is a demo project only. ZILE is the name of a virtual customer and as well the name of the toplevel `LocationGroup` in the project. The project
-comprises a flatgood (carton) stock (9) with a small automatic conveyor system in front (8) to serve the picking (commissioning) stations (23). Feeding the 
-stock happens manually by putting cartons onto an infeed position (7). Beside the automatic flatgood stock, a palett stock and a kanban stock (31) are
-available, too. All transport between the three stocks happens by manual transports (30).
+The ZILE Sweets project is a demo project only. ZILE is the name of a virtual customer and 
+as well the name of the toplevel `LocationGroup` in the project. The project comprises a
+flatgood (carton) stock (9) with a small automatic conveyor system in front (8) to serve
+the picking (commissioning) stations (23). Feeding the stock happens manually by putting
+cartons onto an infeed position (7). Beside the automatic flatgood stock, a palett stock
+and a kanban stock (31) are available, too. All transportation between the three stocks
+happens by manual transports (30).
 
 ![Layout][1]
 
 ## LocationGroups
+
 
 ID | Name
 ---- | ----
@@ -60,3 +64,9 @@ ID | Name
 
 [1]: res/layout.png
 [2]: res/location-layout-FG.png
+
+## Development
+
+```
+docker-compose up -d --build
+```
