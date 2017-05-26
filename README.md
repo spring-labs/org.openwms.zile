@@ -69,4 +69,6 @@ ID | Name
 
 ```
 docker-compose up -d --build
+docker run -d --name srv -p 8761:8761 <IMAGE ID>
+docker run -d --name cfg -p 8099:8099 <IMAGE ID>
 ```

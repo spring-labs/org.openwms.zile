@@ -6,4 +6,4 @@ security:
 
 owms:
   routing:
-    common-service-name: common-srv
+    common-service-name: common-service

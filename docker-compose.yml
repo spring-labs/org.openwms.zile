@@ -2,7 +2,6 @@ version: '3'
 services:
   tracing:
     image: "interface21/openwms-tracing:1.0.0.3"
-    restart: always
     ports:
       - "9411:9411"
 
@@ -10,7 +9,6 @@ services:
   srv:
 #    build: ../../interface21/org.openwms.services
     image: "interface21/openwms-services:1.0.0.3"
-    restart: always
     ports:
       - "8761:8761"
       
@@ -19,7 +17,6 @@ services:
 #    build: ../../interface21/org.openwms.configuration
     image: "interface21/openwms-configuration:1.0.0.2"
     hostname: cfg
-    restart: always
     ports:
       - "8099:8099"
     environment:
