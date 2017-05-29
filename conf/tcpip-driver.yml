@@ -1,4 +1,5 @@
 owms:
+  tenant: ZILE
   driver:
     server:
       port: 30000
