@@ -47,7 +47,7 @@ Beside this basic information, OpenWMS.org provided TSL: Technical Service Loggi
 
 # Installation
 
-All microservices may started as Spring Boot processes, from command line via `java -jar ...` or as
+All microservices may be started as Spring Boot processes, from command line via `java -jar ...` or as
 single Docker containers or as a Docker compose project.
 
 ## Docker compose
@@ -57,14 +57,16 @@ All services are pre-built and available as Docker container from Docker Hub:
 https://hub.docker.com/u/openwms/
 https://hub.docker.com/u/interface21/
 
-First clone the GitHub repository and run docker compose to fetch all containers.
+First clone the GitHub repository and run docker compose to fetch and run all containers.
 
 ```
+git clone git@github.com:spring-labs/org.openwms.zile.git zile
+cd zile
 docker-compose up -d
 ```
 
 This command starts up all containers in the background and returns to the shell. Now we can monitor the logs
-in common or for each single container:
+for all or for a single container:
 
 ```
 docker-compose logs -f
