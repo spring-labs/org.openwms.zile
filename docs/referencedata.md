@@ -53,5 +53,5 @@ ID | Name
 
 ![Layout][2]
 
-[1]: res/layout.png
-[2]: res/location-layout-FG.png
+[1]: ../res/layout.png
+[2]: ../res/location-layout-FG.png
