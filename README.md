@@ -36,6 +36,14 @@ are infrastructure components used to connect all microservices and to apply con
 
 For distributed logging ZipKin server and ELK are used.
 
+A typical ELK dashboard of a live system looks like this.
+
+ | 
+---- | ----
+![TT][3] | Shows the distribution of incoming OSIP telegrams
+![Traffic][4] | Shows the current traffic on the TMS produced by the different areas like Flatgood, Palettes and aisle robots.
+
+
 # Installation
 
 All microservices may started as Spring Boot processes, from command line via `java -jar ...` or as
@@ -71,3 +79,5 @@ docker run -d --name cfg -p 8099:8099 <IMAGE ID>
 
 [1]: res/layout.png
 [2]: res/systemoverview.png
+[3]: res/tt.png
+[4]: res/traffic.png
