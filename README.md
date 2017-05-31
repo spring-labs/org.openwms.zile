@@ -8,9 +8,13 @@ cartons onto an infeed position (I-Point). Beside the automatic flatgood stock, 
 and a kanban stock exists as well. Transportation between the three types of stock happens with
 manual transports.
 
+# System Layout
+
+![Layout][1]
+
 # System Architecture
 
-![SA][1]
+![SA][2]
 
 
 # Installation
@@ -23,4 +27,5 @@ docker run -d --name srv -p 8761:8761 <IMAGE ID>
 docker run -d --name cfg -p 8099:8099 <IMAGE ID>
 ```
 
-[1]: res/systemoverview.png
+[1]: res/layout.png
+[2]: res/systemoverview.png
