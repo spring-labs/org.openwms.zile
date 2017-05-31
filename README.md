@@ -6,15 +6,18 @@ ingredients, like sugar, flavor etc., to make the best candies on the planet.
 
 # System Design
 
-The project comprises a flatgood (carton) stock with a small automatic conveyor system in front to serve
-the picking (commissioning) stations with cartons. Feeding the stock happens manually by putting
-cartons onto an infeed position (I-Point). Beside the automatic flatgood stock, a palette stock
+The project comprises a flatgood (carton) stock with an automatic conveyor system in front to serve
+the picking (commissioning) stations with cartons shown of the left-hand side of the sketch. Feeding
+the stock happens manually by putting
+cartons onto an infeed position (I-Point #7). Beside the automatic flatgood stock, a palette stock
 and a kanban stock exists as well. Transportation between the three types of stock happens with
 manual transports.
 
 ![Layout][1]
 
-For further explanation about the numbers shown in the sketch above please have a look at the
+The palette stock on the right comprises 2 aisles. Palettes can be pushed into the system at any of
+the commissioning points.
+For further explanation about the numbers shown in the sketch above have a look at the
 [LocationGroup design](docs/referencedata.md)
 
 # System Architecture
