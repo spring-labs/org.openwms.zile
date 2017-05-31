@@ -40,9 +40,10 @@ A typical ELK dashboard of a live system looks like this.
 
 Diagram | Description
 ---- | ----
-![TT][3] | Shows the distribution of incoming OSIP telegrams
-![Traffic][4] | Shows the current traffic on the TMS produced by the different areas like Flatgood, Palettes and aisle robots.
+![TT][3] | Shows the distribution of incoming OSIP telegrams. This might be helpful in order to find error messages signaled by the underlying controller unit or to spot frequent changes of an `LocationGroup` status, for example when the controller of an aisle robot reports blocked target `Locations`.
+![Traffic][4] | Shows the current traffic on the TMS produced by the different areas like Flatgood, Palettes and aisle robots. Useful to spot performance peaks.
 
+Beside this basic information, OpenWMS.org provided TSL: Technical Service Logging, to log the consumption of business flows and requests to integration components, like ERP, Webservices or Databases.
 
 # Installation
 
