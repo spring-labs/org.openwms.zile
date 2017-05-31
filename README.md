@@ -38,7 +38,7 @@ For distributed logging ZipKin server and ELK are used.
 
 A typical ELK dashboard of a live system looks like this.
 
- | 
+Diagram | Description
 ---- | ----
 ![TT][3] | Shows the distribution of incoming OSIP telegrams
 ![Traffic][4] | Shows the current traffic on the TMS produced by the different areas like Flatgood, Palettes and aisle robots.
