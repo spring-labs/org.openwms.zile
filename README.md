@@ -15,7 +15,7 @@ manual transports.
 ![Layout][1]
 
 For further explanation about the numbers shown in the sketch above please have a look at the
-(LocationGroup design)[docs/referencedata.md]
+[LocationGroup design](docs/referencedata.md)
 
 # System Architecture
 
