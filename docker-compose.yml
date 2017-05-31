@@ -68,14 +68,85 @@ services:
       owms.eureka.url: http://user:sa@srv:8761
 
 
-  tcp-palett:
+  tcp-palettconv:
 #    build: ../../openwms/org.openwms.common.comm
     image: "openwms/org.openwms.common.comm:1.0.0.1"
     restart: on-failure:10
-    hostname: tcp-palett
+    hostname: tcp-palettconv
     ports:
       - "30000:30000"
     environment:
+      spring.application.name: tcpid-palettconv
+      spring.cloud.config.username: user
+      spring.cloud.config.password: sa
+      spring.zipkin.base-url: http://tracing:9411/
+      owms.eureka.url: http://user:sa@srv:8761
+
+  tcp-palett1:
+#    build: ../../openwms/org.openwms.common.comm
+    image: "openwms/org.openwms.common.comm:1.0.0.1"
+    restart: on-failure:10
+    hostname: tcp-palett1
+    ports:
+      - "30001:30001"
+    environment:
+      spring.application.name: tcpid-palett1
+      spring.cloud.config.username: user
+      spring.cloud.config.password: sa
+      spring.zipkin.base-url: http://tracing:9411/
+      owms.eureka.url: http://user:sa@srv:8761
+
+  tcp-palett2:
+#    build: ../../openwms/org.openwms.common.comm
+    image: "openwms/org.openwms.common.comm:1.0.0.1"
+    restart: on-failure:10
+    hostname: tcp-palett2
+    ports:
+      - "30002:30002"
+    environment:
+      spring.application.name: tcpid-palett2
+      spring.cloud.config.username: user
+      spring.cloud.config.password: sa
+      spring.zipkin.base-url: http://tracing:9411/
+      owms.eureka.url: http://user:sa@srv:8761
+
+  tcp-cartonconv:
+#    build: ../../openwms/org.openwms.common.comm
+    image: "openwms/org.openwms.common.comm:1.0.0.1"
+    restart: on-failure:10
+    hostname: tcp-cartonconv
+    ports:
+      - "30003:30003"
+    environment:
+      spring.application.name: tcpid-cartonconv
+      spring.cloud.config.username: user
+      spring.cloud.config.password: sa
+      spring.zipkin.base-url: http://tracing:9411/
+      owms.eureka.url: http://user:sa@srv:8761
+
+  tcp-carton1:
+#    build: ../../openwms/org.openwms.common.comm
+    image: "openwms/org.openwms.common.comm:1.0.0.1"
+    restart: on-failure:10
+    hostname: tcp-carton1
+    ports:
+      - "30004:30004"
+    environment:
+      spring.application.name: tcpid-carton1
+      spring.cloud.config.username: user
+      spring.cloud.config.password: sa
+      spring.zipkin.base-url: http://tracing:9411/
+      owms.eureka.url: http://user:sa@srv:8761
+
+  tcp-carton2:
+#    build: ../../openwms/org.openwms.common.comm
+    image: "openwms/org.openwms.common.comm:1.0.0.1"
+    restart: on-failure:10
+    hostname: tcp-carton2
+    ports:
+      - "30005:30005"
+    environment:
+      spring.application.name: tcpid-carton2
       spring.cloud.config.username: user
       spring.cloud.config.password: sa
       spring.zipkin.base-url: http://tracing:9411/
