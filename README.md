@@ -89,7 +89,37 @@ docker run -d --name srv -p 8761:8761 <IMAGE ID>
 docker run -d --name cfg -p 8099:8099 <IMAGE ID>
 ```
 
+# Operations
+
+If all containers are up and running the Eureka dashboard lists all available service.
+
+![Eureka][5]
+
+Now the system is ready to process incoming OSIP telegrams. In real-life projects the connected Raspberry Pis send request and status telegrams to the server. We simulate an Pi and connect to one of the tcpip drivers:
+
+```
+telnet localhost 30000
+```
+
+As soon as the connection is established we send a first status telegram, an OSIP SYNQ:
+
+```
+###00160RAS10MFC__00001SYNQ20171123225959***********************************************************************************************************************
+```
+
+The server should respond immediately:
+```
+###00160MFC__RAS1000002SYNC20170601101504***********************************************************************************************************************
+```
+
+Basically the SYNQ telegram is used as heartbeat and time synchronization between Raspberry and MFC (Material Flow Controller).
+
+Like the SYNQ we can trigger a workflow with a REQ_ telegram or send a status update for a `LocationGroup` with an SYSU.
+
+
+
 [1]: res/layout.png
 [2]: res/systemoverview.png
 [3]: res/tt.png
 [4]: res/traffic.png
+[5]: res/eureka.png
