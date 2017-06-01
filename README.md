@@ -41,7 +41,7 @@ For distributed logging ZipKin server and ELK are used.
 
 A typical ELK dashboard of a live system looks like this.
 
-Diagram | Description
+Chart | Description
 ---- | ----
 ![TT][3] | Shows the distribution of incoming OSIP telegrams. This might be helpful in order to find error messages signaled by the underlying controller unit or to spot frequent changes of an `LocationGroup` status, for example when the controller of an aisle robot reports blocked target `Locations`.
 ![Traffic][4] | Shows the current traffic on the TMS produced by the different areas like Flatgood, Palettes and aisle robots. Useful to spot performance peaks.
@@ -50,15 +50,15 @@ Beside this basic information, OpenWMS.org provided TSL: Technical Service Loggi
 
 # Installation
 
-All microservices may be started as Spring Boot processes, from command line via `java -jar ...` or as
+All microservices can be started as Spring Boot processes, from the shell via `java -jar ...` or as
 single Docker containers or as a Docker compose project.
 
 ## Docker compose
 
 All services are pre-built and available as Docker container from Docker Hub:
 
-https://hub.docker.com/u/openwms/
-https://hub.docker.com/u/interface21/
+https://hub.docker.com/u/openwms
+https://hub.docker.com/u/interface21
 
 First clone the GitHub repository and run docker compose to fetch and run all containers.
 
@@ -68,7 +68,7 @@ cd zile
 docker-compose up -d
 ```
 
-This command starts up all containers in the background and returns to the shell. Now we can monitor the logs
+The command above starts up all containers in the background and returns to the shell. Now we can monitor the logs
 for all or for a single container:
 
 ```
@@ -76,7 +76,13 @@ docker-compose logs -f
 docker-compose logs -f routing-service
 ```
 
-# Development
+Please notice: Starting all containers with compose requires a huge memory and cpu consumption. If services fail to start and return with an exit code 137 they cannot allocate enough memory. Check the container state:
+
+```
+docker-compose ps
+```
+
+Starting single containers and expose ports:
 
 ```
 docker run -d --name srv -p 8761:8761 <IMAGE ID>
