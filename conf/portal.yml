@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql:OPENWMS
+    username: OPENWMS
+    password: OPENWMS
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQL95Dialect
+      hibernate.temp.use_jdbc_metadata_defaults: false
