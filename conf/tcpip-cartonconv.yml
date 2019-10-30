@@ -1,9 +1,18 @@
 owms:
   tenant: ZILE
   driver:
-    server:
-      port: 30003
+    connections:
+      hostname: 0.0.0.0
       so-timeout: 300000
       so-receive-buffer-size: 160
       so-send-buffer-size: 160
-      routing-service-name: routing-service # is default
+      identified-by-field: "osip_sender"
+      subsystems:
+        - name: SUBS1
+          inbound:
+            mode: server
+            port: 30001
+          outbound:
+            mode: server
+            port: 31001
+            identified-by-value: "SUBS1"
