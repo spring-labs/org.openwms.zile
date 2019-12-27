@@ -1,5 +1,21 @@
-security:
-  user:
-    password: sa
+spring:
+  security:
+    user:
+      name: user
+      password: sa
 # In production environment the config server uses a keystore or vault to protect password.
-#    password: '{cipher}AQBLMJa8Rp19GXDwdXIAlbWN9/UDuyHC8EBT1oVVF8y4d9030bo2mNObRq1uhWb3jS30i6W1huSkxsCwAxFHBiUzSbKRX+5LmWwtH/ZZBVvgBUtpoOaEivnLixWz1nGW4+7l8tCsEwBXACSa37dkGdXUa+jBRsJ2fk6ITKhRJFfqQULEiuviMwNdHPVBRvEOPX9neUQ9lVZuXSUqCl5OIS+6XpvErgWG/DO9/HDm19Ipq1xXs5N703d5QD/AT0GRv08R/Jgk18Ir77Cd8uMyn7uSSrAiu7klSEuYOkuSLwUx91Q2ItyjGwjdBdqYRSVq3gUtYFt3n6InE6CWiZSyqpO06fQHJxKyK/7vOlGR06gISFTCar/gvxykBYEqndH8BiY='
+#      password: '{cipher}AQBLMJa8Rp19GXDwdXIAlbWN9/UDuyHC8EBT1oVVF8y4d9030bo2mNObRq1uhWb3jS30i6W1huSkxsCwAxFHBiUzSbKRX+5LmWwtH/ZZBVvgBUtpoOaEivnLixWz1nGW4+7l8tCsEwBXACSa37dkGdXUa+jBRsJ2fk6ITKhRJFfqQULEiuviMwNdHPVBRvEOPX9neUQ9lVZuXSUqCl5OIS+6XpvErgWG/DO9/HDm19Ipq1xXs5N703d5QD/AT0GRv08R/Jgk18Ir77Cd8uMyn7uSSrAiu7klSEuYOkuSLwUx91Q2ItyjGwjdBdqYRSVq3gUtYFt3n6InE6CWiZSyqpO06fQHJxKyK/7vOlGR06gISFTCar/gvxykBYEqndH8BiY='
+
+---
+spring:
+  profiles: TESTPG
+  jpa:
+    database: postgresql
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql:TESTPG
+    username: KARL
+    password: KARL
