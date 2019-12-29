@@ -8,14 +8,19 @@ spring:
 
 ---
 spring:
-  profiles: TESTPG
+  profiles: ZILE
   jpa:
     database: postgresql
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create # Must be create in order to load test data
+    properties:
+      hibernate:
+        hbm2ddl:
+          import_files: import-DEMO.sql
+
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql:TESTPG
+    url: jdbc:postgresql:testdb
     username: KARL
     password: KARL
