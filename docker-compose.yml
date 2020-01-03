@@ -57,7 +57,7 @@ services:
       - "8120:8120"
     environment:
       spring.cloud.config.fail-fast: "true"
-      spring.profiles.active: "ASYNCHRONOUS,DEMO"
+      spring.profiles.active: "ASYNCHRONOUS,ZILE"
       spring.zipkin.base-url: http://tracing:9411/
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
@@ -73,7 +73,7 @@ services:
     ports:
       - "8131:8131"
     environment:
-      spring.profiles.active: "ASYNCHRONOUS,DEMO"
+      spring.profiles.active: "ASYNCHRONOUS"
       spring.zipkin.base-url: http://tracing:9411/
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
@@ -98,7 +98,7 @@ services:
 
   tcp-palettconv:
     #    build: ../../openwms/org.openwms.common.comm
-    image: "openwms/org.openwms.common.comm:latest"
+    image: "openwms/org.openwms.common.comm:1.4.0"
     restart: on-failure:10
     hostname: tcp-palettconv
     ports:
