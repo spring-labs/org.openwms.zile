@@ -1,11 +1,9 @@
-version: '3'
+version: '3.7'
 
 networks:
   owms:
-    driver: bridge
 
 services:
-
   tracing:
     image: "openzipkin/zipkin"
     ports:
@@ -16,7 +14,6 @@ services:
   rabbitmq:
     image: 'rabbitmq:3-management'
     ports:
-      - "5673:5672"
       - "15673:15672"
     environment:
       - RABBITMQ_DEFAULT_USER=guest
@@ -26,19 +23,16 @@ services:
 
   srv:
 #    build: ../../interface21/org.openwms.services
-    image: "interface21/openwms-services:1.1.0"
+    image: "interface21/openwms-services:latest"
     ports:
-      - "8761:8761"
+      - "8762:8761"
     networks:
       - owms
 
       
   cfg:
 #    build: ../../interface21/org.openwms.configuration
-    image: "interface21/openwms-configuration:1.1.0"
-    hostname: cfg
-    ports:
-      - "8099:8099"
+    image: "interface21/openwms-configuration:latest"
     environment:
       spring.cloud.config.server.git.uri: https://github.com/spring-labs/org.openwms.zile
       spring.cloud.config.server.git.searchPaths: conf
@@ -48,15 +42,27 @@ services:
     networks:
       - owms
 
-  common-service:
-#    build: ../../openwms/org.openwms.common.service
-    image: "openwms/org.openwms.common.service:1.5.0"
+  tcp-palettconv:
+    #    build: ../../openwms/org.openwms.common.comm
+    image: "openwms/org.openwms.common.comm:latest"
     restart: on-failure:10
-    hostname: common-service
     ports:
-      - "8120:8120"
+      - "30001:30001"
+      - "30002:30002"
     environment:
-      spring.cloud.config.fail-fast: "true"
+      spring.application.name: tcpip-palettconv
+      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED"
+      spring.zipkin.base-url: http://tracing:9411/
+      spring.rabbitmq.host: rabbitmq
+      owms.eureka.url: http://user:sa@srv:8761
+    networks:
+      - owms
+
+  common-service:
+    #    build: ../../openwms/org.openwms.common.service
+    image: "openwms/org.openwms.common.service:latest"
+    restart: on-failure:10
+    environment:
       spring.profiles.active: "ASYNCHRONOUS,ZILE"
       spring.zipkin.base-url: http://tracing:9411/
       spring.rabbitmq.host: rabbitmq
@@ -64,49 +70,26 @@ services:
       owms.srv.hostname: common-service
     networks:
       - owms
-      
-  tms-transportation:
-#    build: ../../openwms/org.openwms.tms.transportation
-    image: "openwms/org.openwms.tms.transportation:1.3.0"
+
+  tms-service:
+    #    build: ../../openwms/org.openwms.tms.transportation
+    image: "openwms/org.openwms.tms.transportation:latest"
     restart: on-failure:10
-    hostname: tms-transportation
-    ports:
-      - "8131:8131"
     environment:
-      spring.profiles.active: "ASYNCHRONOUS"
+      spring.profiles.active: "ASYNCHRONOUS,ZILE"
       spring.zipkin.base-url: http://tracing:9411/
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
-      owms.srv.hostname: tms-transportation
-    networks:
-      - owms
-      
-  routing-service:
-#    build: ../../openwms/org.openwms.tms.routing
-    image: "openwms/org.openwms.tms.routing:1.2.0"
-    restart: on-failure:10
-    hostname: routing-service
-    ports:
-      - "8130:8130"
-    environment:
-      spring.profiles.active: "ASYNCHRONOUS,DEMO"
-      spring.zipkin.base-url: http://tracing:9411/
-      spring.rabbitmq.host: rabbitmq
-      owms.eureka.url: http://user:sa@srv:8761
+      owms.srv.hostname: tms-service
     networks:
       - owms
 
-  tcp-palettconv:
-    #    build: ../../openwms/org.openwms.common.comm
-    image: "openwms/org.openwms.common.comm:1.4.0"
+  routing-service:
+    #    build: ../../openwms/org.openwms.tms.routing
+    image: "openwms/org.openwms.tms.routing:latest"
     restart: on-failure:10
-    hostname: tcp-palettconv
-    ports:
-      - "30001:30001"
-      - "30002:30002"
     environment:
-      spring.application.name: tcpip-palettconv
-      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED"
+      spring.profiles.active: "ASYNCHRONOUS,ZILE"
       spring.zipkin.base-url: http://tracing:9411/
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
