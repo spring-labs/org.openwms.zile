@@ -125,7 +125,7 @@ The server should respond on the second command shell immediately:
 Basically the SYNQ telegram is used as heartbeat and time synchronization between Raspberry and MFC (Material Flow Controller).
 
 Like the SYNQ we can trigger a workflow with a REQ_ telegram or send a status update for a `LocationGroup` with an SYSU. Send a REQ telegram
-to check whether the Routing service works:
+to check whether the Routing service is connected:
 
 ```
 ###00160SPS01MFC__00001REQ_000000000S0000004711EXT_0000000000000000????????????????????0000009020131123225959***************************************************
