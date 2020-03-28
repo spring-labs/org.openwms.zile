@@ -1,0 +1,25 @@
+owms:
+  driver:
+    routing-service:
+      name: routing-service # is default
+      protocol: http # default: http
+      username: user # default: user
+      password: sa # default: sa
+    connections:
+      hostname: 127.0.0.1
+      port-rest: 30008
+      so-timeout: 200000
+      so-receive-buffer-size: 160
+      so-send-buffer-size: 160
+      identified-by-field: "TEST"
+      subsystems:
+        - name: SPS01
+          inbound:
+            mode: server
+            hostname: 0.0.0.0
+            port: 30001
+          outbound:
+            mode: server
+            hostname: 0.0.0.0
+            port: 30002
+            identified-by-value: "SPS01"
