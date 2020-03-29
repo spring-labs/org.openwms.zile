@@ -6,6 +6,30 @@ security:
 
 ---
 spring:
+  profiles: "!ASYNCHRONOUS"
+
+owms:
+  partners:
+    sps01: SPS01
+    sps02: SPS02
+    sps03: SPS03
+    sps04: SPS04
+    sps05: SPS05
+
+---
+spring:
+  profiles: ASYNCHRONOUS
+
+owms:
+  partners:
+    sps01: osip.res.1
+    sps02: osip.res.2
+    sps03: osip.res.3
+    sps04: osip.res.4
+    sps05: osip.res.5
+
+---
+spring:
   profiles: ZILE
   jpa:
     generate-ddl: true
