@@ -1,0 +1,13 @@
+route:
+  receiver: 'email'
+
+receivers:
+  - name: 'email'
+#    email_configs:
+#    - send_resolved: true
+#      to: product@openwms.org
+#      from: $MAIL_ACCOUNT
+#      smarthost: smtp.gmail.com:587
+#      auth_username: "$MAIL_ACCOUNT"
+#      auth_identity: "$MAIL_ACCOUNT"
+#      auth_password: "$MAIL_PASSWORD"
