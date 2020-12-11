@@ -3,6 +3,11 @@ version: '3.7'
 networks:
   owms:
 
+volumes:
+  database: {}
+  prometheus_data: {}
+  grafana_data: {}
+
 services:
   tracing:
     image: "openzipkin/zipkin"
@@ -29,7 +34,6 @@ services:
     networks:
       - owms
 
-      
   cfg:
 #    build: ../../interface21/org.openwms.configuration
     image: "interface21/openwms-configuration:latest"
@@ -43,8 +47,8 @@ services:
       - owms
 
   tcp-palettconv:
-    #    build: ../../openwms/org.openwms.common.comm
-    image: "openwms/org.openwms.common.comm:latest"
+    build: ../../openwms/org.openwms.common.comm
+#    image: "openwms/org.openwms.common.comm:latest"
     restart: on-failure:10
     ports:
       - "30001:30001"
@@ -59,8 +63,8 @@ services:
       - owms
 
   common-service:
-    #    build: ../../openwms/org.openwms.common.service
-    image: "openwms/org.openwms.common.service:latest"
+    build: ../../openwms/org.openwms.common.service
+#    image: "openwms/org.openwms.common.service:latest"
     restart: on-failure:10
     environment:
       spring.profiles.active: "ASYNCHRONOUS,ZILE"
@@ -72,8 +76,8 @@ services:
       - owms
 
   tms-service:
-    #    build: ../../openwms/org.openwms.tms.transportation
-    image: "openwms/org.openwms.tms.transportation:latest"
+    build: ../../openwms/org.openwms.tms.transportation
+#    image: "openwms/org.openwms.tms.transportation:latest"
     restart: on-failure:10
     environment:
       spring.profiles.active: "ASYNCHRONOUS,ZILE"
@@ -85,8 +89,8 @@ services:
       - owms
 
   routing-service:
-    #    build: ../../openwms/org.openwms.tms.routing
-    image: "openwms/org.openwms.tms.routing:latest"
+    build: ../../openwms/org.openwms.tms.routing
+#    image: "openwms/org.openwms.tms.routing:latest"
     restart: on-failure:10
     environment:
       spring.profiles.active: "ASYNCHRONOUS,ZILE"
