@@ -50,6 +50,11 @@ scrape_configs:
     static_configs:
       - targets: ['common-service:8120']
 
+  - job_name: 'COMMON: TCP/IP Palett'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['tcpip-palettconv:30008']
+
   - job_name: 'WMS: Inventory'
     metrics_path: '/actuator/prometheus'
     static_configs:
@@ -64,6 +69,16 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['wms-shipping:8132']
+
+  - job_name: 'TMS: Routing'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['routing-service:8130']
+
+  - job_name: 'TMS: Transportation'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['tms-service:8131']
 
   - job_name: 'CORE: Printing'
     metrics_path: '/actuator/prometheus'
@@ -83,3 +98,10 @@ scrape_configs:
     static_configs:
       - targets: ['srv:8990']
 
+  - job_name: 'CORE: Configuration Service'
+    metrics_path: '/actuator/prometheus'
+    basic_auth:
+      username: 'user'
+      password: 'sa'
+    static_configs:
+      - targets: ['cfg:8099']

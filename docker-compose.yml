@@ -27,7 +27,7 @@ services:
       - owms
 
   srv:
-#    build: ../../interface21/org.openwms.services
+#    build: ../../spring-labs/org.openwms.services
     image: "interface21/openwms-services:latest"
     ports:
       - "8762:8761"
@@ -35,12 +35,16 @@ services:
       - owms
 
   cfg:
-#    build: ../../interface21/org.openwms.configuration
+#    build: ../../spring-labs/org.openwms.configuration
     image: "interface21/openwms-configuration:latest"
+    ports:
+    - "8099:8099"
     environment:
       spring.cloud.config.server.git.uri: https://github.com/spring-labs/org.openwms.zile
       spring.cloud.config.server.git.searchPaths: conf
       spring.cloud.config.server.git.clone-on-start: "true"
+      spring.rabbitmq.host: rabbitmq
+      spring.zipkin.base-url: http://tracing:9411/
       owms.eureka.url: http://user:sa@srv:8761
       owms.srv.hostname: cfg
     networks:
@@ -55,10 +59,11 @@ services:
       - "30002:30002"
     environment:
       spring.application.name: tcpip-palettconv
-      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED"
+      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
       spring.zipkin.base-url: http://tracing:9411/
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
+      owms.srv.hostname: tcpip-palettconv
     networks:
       - owms
 
@@ -67,7 +72,7 @@ services:
     image: "openwms/org.openwms.common.service:latest"
     restart: on-failure:10
     environment:
-      spring.profiles.active: "ASYNCHRONOUS,ZILE"
+      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
       spring.zipkin.base-url: http://tracing:9411/
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
@@ -80,7 +85,7 @@ services:
     image: "openwms/org.openwms.tms.transportation:latest"
     restart: on-failure:10
     environment:
-      spring.profiles.active: "ASYNCHRONOUS,ZILE"
+      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
       spring.zipkin.base-url: http://tracing:9411/
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
@@ -93,7 +98,7 @@ services:
     image: "openwms/org.openwms.tms.routing:latest"
     restart: on-failure:10
     environment:
-      spring.profiles.active: "ASYNCHRONOUS,ZILE"
+      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
       spring.zipkin.base-url: http://tracing:9411/
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
