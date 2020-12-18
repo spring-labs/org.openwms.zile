@@ -3,19 +3,21 @@ version: '3.7'
 networks:
   owms:
 
-volumes:
-  database: {}
-  prometheus_data: {}
-  grafana_data: {}
-
 services:
+
+  ####################################################
+  ## Zipkin UI for Microservice Monitoring (Port 9411)
+  ####################################################
   tracing:
-    image: "openzipkin/zipkin"
+    image: openzipkin/zipkin:2.21.5
     ports:
       - "9411:9411"
     networks:
       - owms
 
+  ####################################################
+  ## RabbitMQ Message Broker (UI at Port 15673)
+  ####################################################
   rabbitmq:
     build: ./monitoring/rabbitmq
     ports:
@@ -26,16 +28,22 @@ services:
     networks:
       - owms
 
+  ####################################################
+  ## OpenWMS Eureka Service Registry (UI at Port 8761)
+  ####################################################
   srv:
-#    build: ../../spring-labs/org.openwms.services
     image: "interface21/openwms-services:latest"
+    environment:
+      spring.zipkin.base-url: http://tracing:9411/
     ports:
       - "8762:8761"
     networks:
       - owms
 
+  ####################################################
+  ## OpenWMS Central Configuration Server
+  ####################################################
   cfg:
-#    build: ../../spring-labs/org.openwms.configuration
     image: "interface21/openwms-configuration:latest"
     ports:
     - "8099:8099"
@@ -50,8 +58,10 @@ services:
     networks:
       - owms
 
+  ####################################################
+  ## OpenWMS TCP/IP Driver for palette conveyor
+  ####################################################
   tcp-palettconv:
-#    build: ../../openwms/org.openwms.common.comm
     image: "openwms/org.openwms.common.comm:latest"
     restart: on-failure:10
     ports:
@@ -67,8 +77,10 @@ services:
     networks:
       - owms
 
+  ####################################################
+  ## OpenWMS COMMON Services
+  ####################################################
   common-service:
-#    build: ../../openwms/org.openwms.common.service
     image: "openwms/org.openwms.common.service:latest"
     restart: on-failure:10
     environment:
@@ -80,8 +92,10 @@ services:
     networks:
       - owms
 
+  ####################################################
+  ## OpenWMS Transportation Service
+  ####################################################
   tms-service:
-#    build: ../../openwms/org.openwms.tms.transportation
     image: "openwms/org.openwms.tms.transportation:latest"
     restart: on-failure:10
     environment:
@@ -93,8 +107,10 @@ services:
     networks:
       - owms
 
+  ####################################################
+  ## OpenWMS Routing Services
+  ####################################################
   routing-service:
-#    build: ../../openwms/org.openwms.tms.routing
     image: "openwms/org.openwms.tms.routing:latest"
     restart: on-failure:10
     environment:
@@ -104,64 +120,3 @@ services:
       owms.eureka.url: http://user:sa@srv:8761
     networks:
       - owms
-
-  prometheus:
-    image: prom/prometheus:v2.1.0
-    volumes:
-      - ./monitoring/prometheus/:/etc/prometheus/
-      - ./data/prometheus:/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-      - '--web.console.templates=/usr/share/prometheus/consoles'
-    ports:
-      - 9090:9090
-    links:
-      - cadvisor:cadvisor
-      - alertmanager:alertmanager
-    depends_on:
-      - cadvisor
-    networks:
-      - owms
-    restart: always
-
-  alertmanager:
-    image: prom/alertmanager
-    volumes:
-      - ./monitoring/alertmanager/:/etc/alertmanager/
-    networks:
-      - owms
-    restart: always
-    command:
-      - '--config.file=/etc/alertmanager/config.yml'
-      - '--storage.path=/alertmanager'
-
-  cadvisor:
-    image: google/cadvisor
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-    networks:
-      - owms
-    restart: always
-    deploy:
-      mode: global
-
-  grafana:
-    image: grafana/grafana
-    user: "472"
-    depends_on:
-      - prometheus
-    ports:
-      - 3000:3000
-    volumes:
-      - grafana_data:/var/lib/grafana
-      - ./monitoring/grafana/provisioning/:/etc/grafana/provisioning/
-    env_file:
-      - ./monitoring/grafana/config.monitoring
-    networks:
-      - owms
-    restart: always
