@@ -1,8 +1,8 @@
 spring:
-security:
-  user:
+  security:
+    user:
       name: user
-    password: sa
+      password: sa
 # In production environment the config server uses a keystore or vault to protect password.
 #    password: '{cipher}AQCBEJQaBHFtllY7nnOyW14gwaJbwqzV9CAf9YFPQf310wRonMc45J4cWb3hoJIfcTaMTLa+DDOqCFSDdFiI8PoDUoj44sUV4GLBnlBxtaJp0OF2Sv7H3XLFdOovJksRPYoJW8m5e9GTzwTyQt3IRJ+NuUJRorOQ7Cb8gtKhgSUHMR710lcdGSIanj512Ewi7xcUYUzHLfU0L+wdLX3k3dkJgtMxaJZMSGfREXz6V3ndeCk8mAnFy0tt/G6ftxfzLKQgdd3S7MkfoZBXHL1DdxS+vW+/S0pDrqs8o9WNX9O1VaYokhwymVFRGkJv5ASmerLzmh3YWkzbfqkg6lwxL/npauGcc+EOs9v/bN5e6QcPePfZMMlVVNjBXbP3VoAKLic='
 
