@@ -82,7 +82,7 @@ services:
   ####################################################
   common-service:
     image: "openwms/org.openwms.common.service:latest"
-    restart: on-failure:10
+    restart: always
     environment:
       spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
       spring.zipkin.base-url: http://tracing:9411/
