@@ -8,12 +8,14 @@ spring:
 
 ---
 spring:
-  profiles: ZILE
+  config:
+    activate:
+      on-profile: ZILE
   jpa:
     database: postgresql
     generate-ddl: true
     hibernate:
-      ddl-auto: create # Must be create in order to load test data
+      ddl-auto: create # Must be "create" in order to load test data
     properties:
       hibernate:
         hbm2ddl:
