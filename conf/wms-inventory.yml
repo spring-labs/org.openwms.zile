@@ -14,7 +14,7 @@ spring:
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: create # Must be "create" in order to load test data
+      ddl-auto: create
     properties:
       hibernate:
         hbm2ddl:
@@ -29,14 +29,14 @@ spring:
     database: postgresql
     generate-ddl: true
     hibernate:
-      ddl-auto: create # Must be "create" in order to load test data
+      ddl-auto: create
     properties:
       hibernate:
         hbm2ddl:
           import_files: import-DEMO.sql
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql:testdb
-    username: KARL
-    password: KARL
+    url: jdbc:postgresql://localhost:5434/ZILEDB
+    username: ZILE
+    password: ZILE
 
