@@ -89,6 +89,8 @@ services:
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
       owms.srv.hostname: common-service
+    volumes:
+      - ./:/openwms
     networks:
       - owms
 

@@ -18,7 +18,7 @@ spring:
     properties:
       hibernate:
         hbm2ddl:
-          import_files: import-DEMO.sql
+          import_files: file:///openwms/data/01-1-load-common.sql
 
 ---
 spring:
@@ -33,10 +33,9 @@ spring:
     properties:
       hibernate:
         hbm2ddl:
-          import_files: import-DEMO.sql
+          import_files: file://${ZILEPRJ}/data/01-1-load-common.sql
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5434/ZILEDB
     username: ZILE
     password: ZILE
-
