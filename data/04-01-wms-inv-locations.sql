@@ -1,0 +1,2 @@
+-- Locations
+insert into wms_inv_location (c_pk,c_pid,c_foreign_pid,c_ol,c_created,c_area,c_aisle,c_x,c_y,c_z,c_description,c_no_max_transport_units,c_location_group,c_plc_state,c_incoming_active,c_outgoing_active,c_erp_code) values (1029,'1029', '1029',0,now(),'EXT_','0000','0000','0000','0000','Virtual location for lost and found',-1,'ZILE',0,true,true,'EXTERN');
