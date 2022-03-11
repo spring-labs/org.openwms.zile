@@ -14,11 +14,7 @@ spring:
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        hbm2ddl:
-          import_files: file:///openwms/data/04-01-wms-inv-locations.sql
+      ddl-auto: update
 
 ---
 spring:
@@ -29,11 +25,7 @@ spring:
     database: postgresql
     generate-ddl: true
     hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        hbm2ddl:
-          import_files: file://${ZILEPRJ}/data/04-01-wms-inv-locations.sql
+      ddl-auto: update
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5434/ZILEDB
