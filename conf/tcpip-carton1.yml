@@ -1,9 +1,19 @@
 owms:
   tenant: ZILE
   driver:
-    server:
-      port: 30004
-      so-timeout: 300000
-      so-receive-buffer-size: 160
-      so-send-buffer-size: 160
-      routing-service-name: routing-service # is default
+    connections:
+      hostname: 127.0.0.1
+      port-rest: 31003
+      so-timeout: 200000
+      identified-by-field: "TEST"
+      subsystems:
+        - name: SUBS3
+          inbound:
+            mode: server
+            hostname: 0.0.0.0
+            port: 31004
+          outbound:
+            mode: server
+            hostname: 0.0.0.0
+            port: 31005
+            identified-by-value: "SUBS3"

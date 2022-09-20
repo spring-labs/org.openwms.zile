@@ -3,6 +3,7 @@ owms:
   driver:
     connections:
       hostname: 0.0.0.0
+      port-rest: 31008
       so-timeout: 300000
       so-receive-buffer-size: 160
       so-send-buffer-size: 160
@@ -11,8 +12,8 @@ owms:
         - name: SUBS1
           inbound:
             mode: server
-            port: 30001
+            port: 31001
           outbound:
             mode: server
-            port: 31001
+            port: 31002
             identified-by-value: "SUBS1"

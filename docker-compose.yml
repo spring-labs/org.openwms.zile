@@ -6,16 +6,6 @@ networks:
 services:
 
   ####################################################
-  ## Zipkin UI for Microservice Monitoring (Port 9411)
-  ####################################################
-  tracing:
-    image: openzipkin/zipkin:2.21.5
-    ports:
-      - "9411:9411"
-    networks:
-      - owms
-
-  ####################################################
   ## RabbitMQ Message Broker (UI at Port 15673)
   ####################################################
   rabbitmq:
@@ -45,14 +35,11 @@ services:
   ####################################################
   cfg:
     image: "interface21/openwms-configuration:latest"
-    ports:
-    - "8099:8099"
     environment:
       spring.cloud.config.server.git.uri: https://github.com/spring-labs/org.openwms.zile
       spring.cloud.config.server.git.searchPaths: conf
       spring.cloud.config.server.git.clone-on-start: "true"
       spring.rabbitmq.host: rabbitmq
-      spring.zipkin.base-url: http://tracing:9411/
       owms.eureka.url: http://user:sa@srv:8761
       owms.srv.hostname: cfg
     networks:
@@ -85,7 +72,6 @@ services:
     restart: always
     environment:
       spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
-      spring.zipkin.base-url: http://tracing:9411/
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
       owms.srv.hostname: common-service
@@ -102,7 +88,6 @@ services:
     restart: always
     environment:
       spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
-      spring.zipkin.base-url: http://tracing:9411/
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
       owms.srv.hostname: tms-service
@@ -117,7 +102,6 @@ services:
     restart: always
     environment:
       spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
-      spring.zipkin.base-url: http://tracing:9411/
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
     networks:
