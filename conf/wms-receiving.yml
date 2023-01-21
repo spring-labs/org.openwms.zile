@@ -8,7 +8,6 @@ spring:
 
 owms:
   receiving:
-    unexpected-receipts-allowed: true
     initial-location-id: FGIN/CONV/IN__/0001/0000
 
 ---
