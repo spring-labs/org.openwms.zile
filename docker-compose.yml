@@ -19,6 +19,18 @@ services:
       - owms
 
   ####################################################
+  ## OpenWMS CORE: Zipkin Monitoring (UI at Port 9411)
+  ####################################################
+  tracing:
+    image: openzipkin/zipkin:2.23.2
+    ports:
+      - "9411:9411"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - owms
+
+  ####################################################
   ## OpenWMS Eureka Service Registry (UI at Port 8761)
   ####################################################
   srv:
@@ -27,6 +39,25 @@ services:
       spring.zipkin.base-url: http://tracing:9411/
     ports:
       - "8762:8761"
+    networks:
+      - owms
+
+  ####################################################
+  ## OpenWMS CORE: Preferences Service
+  ####################################################
+  core-preferences:
+    image: "openwms/org.openwms.core.preferences:latest"
+    container_name: demo-preferences
+    restart: on-failure:10
+    #    ports:
+    #      - "8125:8125"
+    environment:
+      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,BUTAN"
+      owms.eureka.url: http://user:sa@srv:8761
+      owms.srv.hostname: core-preferences
+    volumes:
+      - ./:/openwms
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - owms
 
