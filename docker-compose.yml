@@ -73,6 +73,9 @@ services:
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
       owms.srv.hostname: cfg
+    volumes:
+      - ./:/openwms
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - owms
 
@@ -92,6 +95,9 @@ services:
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
       owms.srv.hostname: tcpip-palettconv
+    volumes:
+      - ./:/openwms
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - owms
 
@@ -108,6 +114,7 @@ services:
       owms.srv.hostname: common-service
     volumes:
       - ./:/openwms
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - owms
 
@@ -122,6 +129,9 @@ services:
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
       owms.srv.hostname: tms-service
+    volumes:
+      - ./:/openwms
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - owms
 
@@ -135,5 +145,8 @@ services:
       spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
+    volumes:
+      - ./:/openwms
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - owms
