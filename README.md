@@ -85,8 +85,8 @@ docker-compose ps
 Starting single containers and expose ports:
 
 ```
-docker run -d --name srv -p 8761:8761 <IMAGE ID>
-docker run -d --name cfg -p 8099:8099 <IMAGE ID>
+docker run -d --name srv -p 8762:8761 interface21/openwms-services:latest
+docker run -d --name cfg -p 8099:8099 interface21/openwms-configuration:latest
 ```
 
 # Operations
