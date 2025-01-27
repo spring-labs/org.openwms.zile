@@ -11,7 +11,7 @@ services:
   rabbitmq:
     build: ./monitoring/rabbitmq
     ports:
-      - "15673:15672"
+      - "15672:15672"
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
@@ -19,12 +19,14 @@ services:
       - owms
 
   ####################################################
-  ## OpenWMS CORE: Zipkin Monitoring (UI at Port 9411)
+  ## OpenWMS CORE: Jaeger Monitoring (UI at Port 4317)
   ####################################################
-  tracing:
-    image: openzipkin/zipkin:2.23.2
+  jaeger:
+    image: jaegertracing/all-in-one:latest
     ports:
-      - "9411:9411"
+      - "16686:16686"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
     volumes:
       - /etc/localtime:/etc/localtime:ro
     networks:
@@ -43,18 +45,16 @@ services:
       - owms
 
   ####################################################
-  ## OpenWMS CORE: Preferences Service
+  ## OpenWMS Central Configuration Server
   ####################################################
-  core-preferences:
-    image: "openwms/org.openwms.core.preferences:latest"
-    container_name: demo-preferences
-    restart: on-failure:10
-    #    ports:
-    #      - "8125:8125"
+  cfg:
+    image: "interface21/openwms-configuration:latest"
     environment:
-      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,BUTAN"
+      spring.profiles.active: "native"
+      spring.cloud.config.server.native.search-locations: file:///openwms/conf
+      spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
-      owms.srv.hostname: core-preferences
+      owms.srv.hostname: cfg
     volumes:
       - ./:/openwms
       - /etc/localtime:/etc/localtime:ro
@@ -62,17 +62,18 @@ services:
       - owms
 
   ####################################################
-  ## OpenWMS Central Configuration Server
+  ## OpenWMS CORE: Preferences Service
   ####################################################
-  cfg:
-    image: "interface21/openwms-configuration:latest"
+  core-preferences:
+    image: "openwms/org.openwms.core.preferences:latest"
+    container_name: demo-preferences
+    restart: on-failure:10
     environment:
-      spring.cloud.config.server.git.uri: https://github.com/spring-labs/org.openwms.zile
-      spring.cloud.config.server.git.searchPaths: conf
-      spring.cloud.config.server.git.clone-on-start: "true"
+      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,BUTAN"
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
-      owms.srv.hostname: cfg
+      owms.srv.hostname: core-preferences
+      owms.tracing.url: http://jaeger:4317
     volumes:
       - ./:/openwms
       - /etc/localtime:/etc/localtime:ro
@@ -112,6 +113,7 @@ services:
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
       owms.srv.hostname: common-service
+      owms.tracing.url: http://jaeger:4317
     volumes:
       - ./:/openwms
       - /etc/localtime:/etc/localtime:ro
@@ -129,6 +131,7 @@ services:
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
       owms.srv.hostname: tms-service
+      owms.tracing.url: http://jaeger:4317
     volumes:
       - ./:/openwms
       - /etc/localtime:/etc/localtime:ro
@@ -142,9 +145,11 @@ services:
     image: "openwms/org.openwms.tms.routing:latest"
     restart: always
     environment:
-      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
+      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,CAMUNDA,ZILE"
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
+      owms.srv.hostname: routing-service
+      owms.tracing.url: http://jaeger:4317
     volumes:
       - ./:/openwms
       - /etc/localtime:/etc/localtime:ro
