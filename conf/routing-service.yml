@@ -51,6 +51,9 @@ spring:
 camunda:
   bpm:
     deployment-resource-pattern: file:///openwms/bpmn/camunda/*.bpmn20.xml,file:///openwms/bpmn/camunda/*.bpmn,file:///openwms/bpmn/camunda/*.dmn11.xml,file:///openwms/bpmn/camunda/*.dmn
+    generic-properties:
+      properties:
+        enforceHistoryTimeToLive: false
 
 ---
 spring:
