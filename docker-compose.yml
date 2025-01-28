@@ -10,11 +10,17 @@ services:
   ####################################################
   rabbitmq:
     build: ./monitoring/rabbitmq
+    hostname: 'mosque'
     ports:
       - "15672:15672"
+      - "5672:5672"
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - ./out/rabbitmq:/var/lib/rabbitmq
+      - ./out/rabbitmq-mnesia:/var/lib/rabbitmq/mnesia
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - owms
 

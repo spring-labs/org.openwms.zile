@@ -6,6 +6,7 @@ doc/src/*GitHubIssues.adoc
 /build/
 /bin/
 target/
+out/
 **/${project.build.directory}/
 /null/
 libs/
