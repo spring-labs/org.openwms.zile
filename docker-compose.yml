@@ -30,6 +30,7 @@ services:
   jaeger:
     image: jaegertracing/all-in-one:latest
     ports:
+      - "4317:4317"
       - "16686:16686"
     environment:
       - COLLECTOR_OTLP_ENABLED=true
@@ -42,9 +43,7 @@ services:
   ## OpenWMS Eureka Service Registry (UI at Port 8761)
   ####################################################
   srv:
-    image: "interface21/openwms-services:latest"
-    environment:
-      spring.zipkin.base-url: http://tracing:9411/
+    image: "interface21/openwms-services:2.2.0"
     ports:
       - "8762:8761"
     networks:
@@ -54,7 +53,7 @@ services:
   ## OpenWMS Central Configuration Server
   ####################################################
   cfg:
-    image: "interface21/openwms-configuration:latest"
+    image: "interface21/openwms-configuration:2.2.0"
     environment:
       spring.profiles.active: "native"
       spring.cloud.config.server.native.search-locations: file:///openwms/conf
@@ -112,7 +111,7 @@ services:
   ## OpenWMS COMMON Services
   ####################################################
   common-service:
-    image: "openwms/org.openwms.common.service:latest"
+    image: "openwms/org.openwms.common.service:3.0.0"
     restart: always
     environment:
       spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
