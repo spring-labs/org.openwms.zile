@@ -1,5 +1,3 @@
-version: '3.7'
-
 networks:
   owms:
 
@@ -10,6 +8,7 @@ services:
   ####################################################
   rabbitmq:
     build: ./monitoring/rabbitmq
+    container_name: rabbitmq
     hostname: 'mosque'
     ports:
       - "15672:15672"
@@ -29,6 +28,7 @@ services:
   ####################################################
   jaeger:
     image: jaegertracing/all-in-one:latest
+    container_name: jaeger
     ports:
       - "4317:4317"
       - "16686:16686"
@@ -44,6 +44,7 @@ services:
   ####################################################
   srv:
     image: "interface21/openwms-services:2.2.0"
+    container_name: srv
     ports:
       - "8762:8761"
     networks:
@@ -54,6 +55,7 @@ services:
   ####################################################
   cfg:
     image: "interface21/openwms-configuration:2.2.0"
+    container_name: cfg
     environment:
       spring.profiles.active: "native"
       spring.cloud.config.server.native.search-locations: file:///openwms/conf
@@ -71,8 +73,8 @@ services:
   ####################################################
   core-preferences:
     image: "openwms/org.openwms.core.preferences:latest"
-    container_name: demo-preferences
-    restart: on-failure:10
+    container_name: core-preferences
+    restart: always
     environment:
       spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,BUTAN"
       spring.rabbitmq.host: rabbitmq
@@ -90,6 +92,7 @@ services:
   ####################################################
   tcp-palettconv:
     image: "openwms/org.openwms.common.comm:latest"
+    container_name: tcp-palettconv
     restart: always
     ports:
       - "30001:30001"
@@ -112,6 +115,7 @@ services:
   ####################################################
   common-service:
     image: "openwms/org.openwms.common.service:3.0.0"
+    container_name: common-service
     restart: always
     environment:
       spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
@@ -130,6 +134,7 @@ services:
   ####################################################
   tms-service:
     image: "openwms/org.openwms.tms.transportation:latest"
+    container_name: tms-service
     restart: always
     environment:
       spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
@@ -148,6 +153,7 @@ services:
   ####################################################
   routing-service:
     image: "openwms/org.openwms.tms.routing:latest"
+    container_name: routing-service
     restart: always
     environment:
       spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,CAMUNDA,ZILE"
