@@ -129,7 +129,7 @@ services:
       - "30002:30002"
     environment:
       spring.application.name: tcpip-palettconv
-      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
+      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILEPG"
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
       owms.srv.hostname: tcpip-palettconv
@@ -144,6 +144,8 @@ services:
         condition: service_healthy
       cfg:
         condition: service_healthy
+      postgres:
+        condition: service_healthy
 
   ####################################################
   ## OpenWMS COMMON Services
@@ -153,11 +155,12 @@ services:
     container_name: common-service
     restart: always
     environment:
-      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
+      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILEPG"
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
       owms.srv.hostname: common-service
       owms.tracing.url: http://jaeger:4317
+      ZILEPRJ: openwms
     volumes:
       - ./:/openwms
       - /etc/localtime:/etc/localtime:ro
@@ -168,6 +171,8 @@ services:
         condition: service_healthy
       cfg:
         condition: service_healthy
+      postgres:
+        condition: service_healthy
 
   ####################################################
   ## OpenWMS Transportation Service
@@ -177,7 +182,7 @@ services:
     container_name: tms-service
     restart: always
     environment:
-      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
+      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILEPG"
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
       owms.srv.hostname: tms-service
@@ -192,6 +197,8 @@ services:
         condition: service_healthy
       cfg:
         condition: service_healthy
+      postgres:
+        condition: service_healthy
 
   ####################################################
   ## OpenWMS Routing Services
@@ -201,11 +208,12 @@ services:
     container_name: routing-service
     restart: always
     environment:
-      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,CAMUNDA,ZILE"
+      spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,CAMUNDA,ZILEPG"
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
       owms.srv.hostname: routing-service
       owms.tracing.url: http://jaeger:4317
+      ZILEPRJ: openwms
     volumes:
       - ./:/openwms
       - /etc/localtime:/etc/localtime:ro
@@ -216,3 +224,30 @@ services:
         condition: service_healthy
       cfg:
         condition: service_healthy
+      postgres:
+        condition: service_healthy
+  ####################################################
+  ## POSTGRESQL
+  ####################################################
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=ZILE
+      - POSTGRES_USER=ZILE
+      - POSTGRES_DB=ZILEDB
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - ./data/initial.sql:/docker-entrypoint-initdb.d/initial.sql
+      - ./postgres_data:/var/lib/postgresql/data
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "5432:5432"
+    networks:
+      - owms
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

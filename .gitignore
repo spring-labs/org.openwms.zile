@@ -93,3 +93,4 @@ local.properties
 
 # PDT-specific
 .buildpath
+/postgres_data

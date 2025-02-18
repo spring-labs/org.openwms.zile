@@ -22,13 +22,12 @@ spring:
     activate:
       on-profile: ZILEPG
   jpa:
-    database: postgresql
     generate-ddl: true
     hibernate:
       ddl-auto: update
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5434/ZILEDB
+    url: jdbc:postgresql://postgres:5432/ZILEDB
     username: ZILE
     password: ZILE
 

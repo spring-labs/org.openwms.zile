@@ -61,19 +61,18 @@ spring:
     activate:
       on-profile: ZILEPG
   jpa:
-    database: postgresql
     generate-ddl: true
     hibernate:
       ddl-auto: create
     properties:
       hibernate:
         hbm2ddl:
-          import_files: file://${ZILEPRJ}/data/02-1-load-routing.sql
+          import_files: /${ZILEPRJ}/data/02-1-load-routing.sql
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5434/ZILEDB
+    url: jdbc:postgresql://postgres:5432/ZILEDB
     username: ZILE
     password: ZILE
 camunda:
   bpm:
-    deployment-resource-pattern: file://${ZILEPRJ}/bpmn/camunda/*.bpmn20.xml,file://${ZILEPRJ}/bpmn/camunda/*.bpmn,file://${ZILEPRJ}/bpmn/camunda/*.dmn11.xml,file://${ZILEPRJ}/bpmn/camunda/*.dmn
+    deployment-resource-pattern: /${ZILEPRJ}/bpmn/camunda/*.bpmn20.xml,/${ZILEPRJ}/bpmn/camunda/*.bpmn,/${ZILEPRJ}/bpmn/camunda/*.dmn11.xml,/${ZILEPRJ}/bpmn/camunda/*.dmn
