@@ -130,10 +130,10 @@ services:
     environment:
       spring.application.name: tcpip-palettconv
       spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
-      spring.zipkin.base-url: http://jaeger:9411/
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
       owms.srv.hostname: tcpip-palettconv
+      owms.tracing.url: http://jaeger:4317
     volumes:
       - ./:/openwms
       - /etc/localtime:/etc/localtime:ro
