@@ -22,6 +22,11 @@ services:
       - /etc/localtime:/etc/localtime:ro
     networks:
       - owms
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 5s
+      timeout: 30s
+      retries: 3
 
   ####################################################
   ## OpenWMS CORE: Jaeger Monitoring (UI at Port 4317)
@@ -49,6 +54,13 @@ services:
       - "8762:8761"
     networks:
       - owms
+    depends_on:
+      - jaeger
+    healthcheck:
+      test: "wget --no-verbose --tries=1 --spider http://localhost:8761 || exit 1"
+      interval: 10s
+      timeout: 10s
+      retries: 10
 
   ####################################################
   ## OpenWMS Central Configuration Server
@@ -67,6 +79,14 @@ services:
       - /etc/localtime:/etc/localtime:ro
     networks:
       - owms
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: "wget -qO-  http://localhost:8099/actuator/health | grep UP || exit 1"
+      interval: 10s
+      timeout: 10s
+      retries: 3
 
   ####################################################
   ## OpenWMS CORE: Preferences Service
@@ -86,6 +106,16 @@ services:
       - /etc/localtime:/etc/localtime:ro
     networks:
       - owms
+    depends_on:
+      srv:
+        condition: service_healthy
+      cfg:
+        condition: service_healthy
+    healthcheck:
+      test: "curl -f http://localhost:8099/actuator/health"
+      interval: 1s
+      timeout: 10s
+      retries: 60
 
   ####################################################
   ## OpenWMS TCP/IP Driver for palette conveyor
@@ -100,7 +130,7 @@ services:
     environment:
       spring.application.name: tcpip-palettconv
       spring.profiles.active: "ASYNCHRONOUS,DISTRIBUTED,ZILE"
-      spring.zipkin.base-url: http://tracing:9411/
+      spring.zipkin.base-url: http://jaeger:9411/
       spring.rabbitmq.host: rabbitmq
       owms.eureka.url: http://user:sa@srv:8761
       owms.srv.hostname: tcpip-palettconv
@@ -109,6 +139,11 @@ services:
       - /etc/localtime:/etc/localtime:ro
     networks:
       - owms
+    depends_on:
+      srv:
+        condition: service_healthy
+      cfg:
+        condition: service_healthy
 
   ####################################################
   ## OpenWMS COMMON Services
@@ -128,6 +163,11 @@ services:
       - /etc/localtime:/etc/localtime:ro
     networks:
       - owms
+    depends_on:
+      srv:
+        condition: service_healthy
+      cfg:
+        condition: service_healthy
 
   ####################################################
   ## OpenWMS Transportation Service
@@ -147,6 +187,11 @@ services:
       - /etc/localtime:/etc/localtime:ro
     networks:
       - owms
+    depends_on:
+      srv:
+        condition: service_healthy
+      cfg:
+        condition: service_healthy
 
   ####################################################
   ## OpenWMS Routing Services
@@ -166,3 +211,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
     networks:
       - owms
+    depends_on:
+      srv:
+        condition: service_healthy
+      cfg:
+        condition: service_healthy
