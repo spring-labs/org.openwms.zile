@@ -7,7 +7,7 @@ services:
   ## RabbitMQ Message Broker (UI at Port 15673)
   ####################################################
   rabbitmq:
-    build: ./monitoring/rabbitmq
+    image: openwms/rabbitmq:latest
     container_name: rabbitmq
     hostname: 'mosque'
     ports:
@@ -91,7 +91,7 @@ services:
   ## OpenWMS TCP/IP Driver for palette conveyor
   ####################################################
   tcp-palettconv:
-    image: "openwms/org.openwms.common.comm:latest"
+    image: "openwms/org.openwms.common.comm:1.6.0"
     container_name: tcp-palettconv
     restart: always
     ports:
